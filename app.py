@@ -4,17 +4,6 @@ import json
 import folium
 from streamlit_folium import st_folium
 
-ROUTE_COLS = [
-    "SOURCE_FILE", "ROUTE_BOOK", "ZONE", "DAY_OF_WEEK", "WEEKS_OF_MONTH",
-    "STEP_NUMBER", "STREET_NAME", "SIDE", "FROM_STREET", "TO_STREET",
-    "TIME_START", "TIME_END", "FROM_CNN", "TO_CNN"
-]
-SEG_COLS = [
-    "SOURCE_FILE", "ROUTE_BOOK", "ZONE", "DAY_OF_WEEK", "STEP_NUMBER",
-    "STREET_NAME", "SIDE", "FROM_STREET", "TO_STREET", "SEGMENT_CNN",
-    "LNG", "LAT", "GEOJSON"
-]
-
 STEP_COLORS = [
     "#e6194b", "#3cb44b", "#4363d8", "#f58231", "#911eb4",
     "#42d4f4", "#f032e6", "#bfef45", "#fabed4", "#469990",
@@ -24,7 +13,7 @@ STEP_COLORS = [
 
 @st.cache_data
 def load_routes():
-    df = pd.read_csv("data/routes.csv.gz", header=None, names=ROUTE_COLS, compression="gzip")
+    df = pd.read_csv("data/STREET_SWEEPING_ROUTES_CNN_V2.csv")
     df["STEP_NUMBER"] = pd.to_numeric(df["STEP_NUMBER"], errors="coerce")
     df["FROM_CNN"] = pd.to_numeric(df["FROM_CNN"], errors="coerce")
     df["TO_CNN"] = pd.to_numeric(df["TO_CNN"], errors="coerce")
@@ -32,7 +21,7 @@ def load_routes():
 
 @st.cache_data
 def load_segments():
-    df = pd.read_csv("data/segments.csv.gz", header=None, names=SEG_COLS, compression="gzip")
+    df = pd.read_csv("data/STREET_SWEEPING_ROUTE_SEGMENTS_V2.csv")
     df["STEP_NUMBER"] = pd.to_numeric(df["STEP_NUMBER"], errors="coerce")
     df["LNG"] = pd.to_numeric(df["LNG"], errors="coerce")
     df["LAT"] = pd.to_numeric(df["LAT"], errors="coerce")
